@@ -27,7 +27,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
                         @if(auth()->user()->role === 'admin' || auth()->user()->role === 'editor')
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Admin Panel</a></li>
+                            <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="fas fa-cog me-2"></i>Admin Panel</a></li>
                         @endif
                         <li><hr class="dropdown-divider"></li>
                         <li>
@@ -122,8 +122,8 @@
                                             <i class="fas fa-bookmark me-1"></i>Artikel Tersimpan
                                         </a>
                                         @if(auth()->user()->role === 'admin' || auth()->user()->role === 'editor')
-                                            <a href="#" class="btn btn-outline-success">
-                                                <i class="fas fa-plus me-1"></i>Tulis Artikel
+                                            <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-success">
+                                                <i class="fas fa-cog me-1"></i>Admin Panel
                                             </a>
                                         @endif
                                     </div>
