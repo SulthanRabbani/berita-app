@@ -13,7 +13,7 @@
             <a class="navbar-brand" href="{{ url('/') }}">
                 <i class="fas fa-newspaper"></i> Berita App
             </a>
-            
+
             <div class="navbar-nav ms-auto">
                 @auth
                     <a href="{{ url('/dashboard') }}" class="nav-link">
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-4 mb-3">
                         <div class="card h-100 border-0 shadow-sm">
                             <div class="card-body text-center">
@@ -68,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-4 mb-3">
                         <div class="card h-100 border-0 shadow-sm">
                             <div class="card-body text-center">

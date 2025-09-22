@@ -26,10 +26,10 @@ class GoogleController extends Controller
     {
         try {
             $googleUser = Socialite::driver('google')->user();
-            
+
             // Check if user already exists
             $user = User::where('email', $googleUser->getEmail())->first();
-            
+
             if ($user) {
                 // Update existing user with Google info if not already set
                 if (!$user->google_id) {
@@ -49,13 +49,13 @@ class GoogleController extends Controller
                     'role' => 'member', // Default role
                 ]);
             }
-            
+
             // Login the user
             Auth::login($user);
-            
+
             // Redirect to intended page or dashboard
             return redirect()->intended('/dashboard');
-            
+
         } catch (\Exception $e) {
             return redirect('/login')->withErrors(['error' => 'Something went wrong with Google authentication.']);
         }
@@ -67,10 +67,10 @@ class GoogleController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect('/');
     }
 }
