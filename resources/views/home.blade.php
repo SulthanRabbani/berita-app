@@ -217,7 +217,7 @@
             </div>
 
             <div class="border-t border-gray-200 mt-8 pt-8 text-center text-gray-500">
-                <p>&copy; {{ date('Y') }} Berita App. Semua hak dilindungi.</p>
+                <p>&copy; {{ date('Y') }} Berita App | Sulthan Taqi Rabbani</p>
             </div>
         </div>
     </footer>

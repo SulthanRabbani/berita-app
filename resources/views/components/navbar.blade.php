@@ -15,7 +15,7 @@
                     <div class="bg-blue-600 p-2 rounded-lg">
                         <i class="fas fa-newspaper text-white text-xl"></i>
                     </div>
-                    <span class="text-xl font-bold text-gray-900">{{ $title }}</span>
+                    <span class="text-xl font-bold text-gray-900">Berita App</span>
                 </a>
             </div>
 

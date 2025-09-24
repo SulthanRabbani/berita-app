@@ -86,9 +86,7 @@
 
                 <div class="social-auth-links text-center mt-2 mb-3">
                     <p>- ATAU -</p>
-                    <a href="{{ route('auth.google.redirect') }}" class="btn btn-block btn-danger">
-                        <i class="fab fa-google mr-2"></i> Masuk dengan Google
-                    </a>
+
                 </div>
 
                 <!-- <p class="mb-1">
