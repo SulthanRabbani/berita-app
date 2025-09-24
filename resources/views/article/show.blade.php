@@ -1,60 +1,26 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $article->title }} - {{ config('app.name', 'Berita App') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <meta name="description" content="{{ $article->excerpt }}">
-</head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="flex items-center space-x-2">
-                        <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
-                            <i class="fas fa-newspaper text-white text-xl"></i>
-                        </div>
-                        <span class="text-xl font-bold text-gray-900">Berita App</span>
-                    </a>
-                </div>
+@extends('layouts.app')
 
-                <div class="flex items-center space-x-4">
-                    <a href="{{ route('home') }}"
-                       class="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition duration-200">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Kembali ke Beranda</span>
-                    </a>
-                    @auth
-                        <div class="flex items-center space-x-2">
-                            <img class="h-8 w-8 rounded-full object-cover"
-                                 src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=3b82f6&color=fff"
-                                 alt="{{ auth()->user()->name }}">
-                            <span class="text-sm text-gray-700">{{ auth()->user()->name }}</span>
-                        </div>
-                    @else
-                        <a href="{{ route('login') }}"
-                           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center space-x-2">
-                            <i class="fas fa-sign-in-alt"></i>
-                            <span>Masuk</span>
-                        </a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </nav>
+@section('title', $article->title . ' - ' . config('app.name', 'Berita App'))
+
+@php
+    $backUrl = route('home');
+    $backText = 'Kembali ke Beranda';
+@endphp
+
+@push('styles')
+    <meta name="description" content="{{ $article->excerpt }}">
+@endpush
+
+@section('content')
 
     <!-- Article Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Article Header -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
             <div class="p-6 pb-4">
                 <div class="flex items-center space-x-3 mb-6">
                     <img class="h-12 w-12 rounded-full object-cover"
-                         src="https://ui-avatars.com/api/?name={{ urlencode($article->user->name) }}&background=3b82f6&color=fff"
+                         src="{{ $article->user->getAvatarUrl(64) }}"
                          alt="{{ $article->user->name }}">
                     <div class="flex-1">
                         <h4 class="font-semibold text-gray-900">{{ $article->user->name }}</h4>
@@ -131,7 +97,7 @@
                     @csrf
                     <div class="flex space-x-3">
                         <img class="h-10 w-10 rounded-full object-cover"
-                             src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=3b82f6&color=fff"
+                             src="{{ auth()->user()->getAvatarUrl(64) }}"
                              alt="{{ auth()->user()->name }}">
                         <div class="flex-1">
                             <textarea name="content"
@@ -167,7 +133,7 @@
                 @forelse($article->comments->sortByDesc('created_at') as $comment)
                 <div class="flex space-x-3">
                     <img class="h-10 w-10 rounded-full object-cover"
-                         src="https://ui-avatars.com/api/?name={{ urlencode($comment->user->name) }}&background={{ ['3b82f6', '10b981', '8b5cf6', 'f59e0b', 'ef4444'][rand(0,4)] }}&color=fff"
+                         src="{{ $comment->user->getAvatarUrl(64) }}"
                          alt="{{ $comment->user->name }}">
                     <div class="flex-1">
                         <div class="bg-gray-50 rounded-lg p-4">
@@ -204,7 +170,7 @@
                 @endforelse
             </div>
         </div>
-    </main>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-200 mt-16">
@@ -214,7 +180,9 @@
             </p>
         </div>
     </footer>
+@endsection
 
+@push('scripts')
     <script>
         // Like and bookmark functionality (same as homepage)
         document.addEventListener('DOMContentLoaded', function() {
@@ -259,5 +227,4 @@
             });
         });
     </script>
-</body>
-</html>
+@endpush
