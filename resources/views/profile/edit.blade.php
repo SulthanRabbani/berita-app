@@ -93,9 +93,9 @@
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
                                 <i class="fas fa-user mr-2 text-blue-600"></i>Nama Lengkap
                             </label>
-                            <input type="text" 
-                                   id="name" 
-                                   name="name" 
+                            <input type="text"
+                                   id="name"
+                                   name="name"
                                    value="{{ old('name', auth()->user()->name) }}"
                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                    required>
@@ -106,9 +106,9 @@
                             <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
                                 <i class="fas fa-envelope mr-2 text-blue-600"></i>Email
                             </label>
-                            <input type="email" 
-                                   id="email" 
-                                   name="email" 
+                            <input type="email"
+                                   id="email"
+                                   name="email"
                                    value="{{ old('email', auth()->user()->email) }}"
                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                    required>
@@ -120,8 +120,8 @@
                             <label for="bio" class="block text-sm font-medium text-gray-700 mb-2">
                                 <i class="fas fa-user-circle mr-2 text-blue-600"></i>Bio
                             </label>
-                            <textarea id="bio" 
-                                      name="bio" 
+                            <textarea id="bio"
+                                      name="bio"
                                       rows="3"
                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                       placeholder="Ceritakan tentang diri Anda...">{{ old('bio', auth()->user()->bio) }}</textarea>
@@ -132,9 +132,9 @@
                             <label for="location" class="block text-sm font-medium text-gray-700 mb-2">
                                 <i class="fas fa-map-marker-alt mr-2 text-blue-600"></i>Lokasi
                             </label>
-                            <input type="text" 
-                                   id="location" 
-                                   name="location" 
+                            <input type="text"
+                                   id="location"
+                                   name="location"
                                    value="{{ old('location', auth()->user()->location) }}"
                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                    placeholder="Kota, Negara">
@@ -145,9 +145,9 @@
                             <label for="website" class="block text-sm font-medium text-gray-700 mb-2">
                                 <i class="fas fa-globe mr-2 text-blue-600"></i>Website
                             </label>
-                            <input type="url" 
-                                   id="website" 
-                                   name="website" 
+                            <input type="url"
+                                   id="website"
+                                   name="website"
                                    value="{{ old('website', auth()->user()->website) }}"
                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                    placeholder="https://website-anda.com">
@@ -158,14 +158,14 @@
                             <h3 class="text-lg font-semibold text-gray-900 mb-4">
                                 <i class="fas fa-key mr-2 text-blue-600"></i>Ubah Password (Opsional)
                             </h3>
-                            
+
                             <div class="space-y-4">
                                 <div>
                                     <label for="current_password" class="block text-sm font-medium text-gray-700 mb-2">
                                         Password Saat Ini
                                     </label>
-                                    <input type="password" 
-                                           id="current_password" 
+                                    <input type="password"
+                                           id="current_password"
                                            name="current_password"
                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                            placeholder="Masukkan password saat ini">
@@ -175,8 +175,8 @@
                                     <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
                                         Password Baru
                                     </label>
-                                    <input type="password" 
-                                           id="password" 
+                                    <input type="password"
+                                           id="password"
                                            name="password"
                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                            placeholder="Masukkan password baru">
@@ -186,8 +186,8 @@
                                     <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">
                                         Konfirmasi Password Baru
                                     </label>
-                                    <input type="password" 
-                                           id="password_confirmation" 
+                                    <input type="password"
+                                           id="password_confirmation"
                                            name="password_confirmation"
                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                            placeholder="Konfirmasi password baru">
@@ -200,11 +200,11 @@
 
                 <!-- Form Actions -->
                 <div class="bg-gray-50 px-6 py-4 flex items-center justify-between">
-                    <a href="{{ route('user.profile') }}" 
+                    <a href="{{ route('user.profile') }}"
                        class="text-gray-600 hover:text-gray-800 font-medium transition duration-200">
                         Batal
                     </a>
-                    <button type="submit" 
+                    <button type="submit"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-200 flex items-center space-x-2">
                         <i class="fas fa-save"></i>
                         <span>Simpan Perubahan</span>

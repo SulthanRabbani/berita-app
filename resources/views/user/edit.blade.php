@@ -27,7 +27,7 @@
                         <i class="fas fa-arrow-left"></i>
                         <span>Kembali ke Profil</span>
                     </a>
-                    
+
                     <div class="flex items-center space-x-2 pl-2 border-l border-gray-200">
                         <img class="h-8 w-8 rounded-full object-cover"
                              src="{{ auth()->user()->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=3b82f6&color=fff' }}"
@@ -207,7 +207,7 @@
                                  alt="{{ $user->name }}">
                             <h4 class="text-lg font-semibold text-gray-900">{{ $user->name }}</h4>
                             <p class="text-sm text-gray-600">{{ $user->email }}</p>
-                            
+
                             @if($user->role === 'admin')
                             <span class="inline-flex items-center px-2 py-1 mt-2 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                 <i class="fas fa-crown mr-1"></i>
@@ -239,7 +239,7 @@
                                 <span>{{ $user->location }}</span>
                             </div>
                             @endif
-                            
+
                             @if($user->website)
                             <div class="flex items-center space-x-2">
                                 <i class="fas fa-globe w-4"></i>
@@ -248,7 +248,7 @@
                                 </a>
                             </div>
                             @endif
-                            
+
                             <div class="flex items-center space-x-2">
                                 <i class="fas fa-calendar-alt w-4"></i>
                                 <span>Bergabung {{ $user->created_at->locale('id')->format('F Y') }}</span>
@@ -256,7 +256,7 @@
                         </div>
 
                         <div class="mt-6 pt-4 border-t border-gray-200">
-                            <a href="{{ route('user.profile') }}" 
+                            <a href="{{ route('user.profile') }}"
                                class="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium transition duration-200 flex items-center justify-center space-x-2">
                                 <i class="fas fa-eye"></i>
                                 <span>Lihat Profil</span>

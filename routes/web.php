@@ -14,21 +14,8 @@ Route::get('/article/{article}', [HomeController::class, 'show'])->name('article
 Route::get('/category/{category}', [HomeController::class, 'category'])->name('category.show');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
-// Comment routes (require authentication)
-Route::post('/article/{article}/comment', [CommentController::class, 'store'])
-    ->name('comment.store')
-    ->middleware('auth');
-Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])
-    ->name('comment.destroy')
-    ->middleware('auth');
-
-// Bookmark routes (require authentication)
-Route::post('/article/{article}/bookmark', [BookmarkController::class, 'toggle'])
-    ->name('bookmark.toggle')
-    ->middleware('auth');
-Route::get('/bookmarks', [BookmarkController::class, 'index'])
-    ->name('bookmarks.index')
-    ->middleware('auth');
+// Public routes that don't require authentication but may benefit from it
+// (These will be handled in the protected routes section below)
 
 // Auth Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -57,14 +44,14 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile/password', [UserController::class, 'updatePassword'])->name('user.profile.password');
     Route::get('/my-articles', [UserController::class, 'articles'])->name('user.articles');
     Route::get('/my-comments', [UserController::class, 'comments'])->name('user.comments');
-    
+
     // Comments
-    Route::post('/articles/{article}/comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
-    
+    Route::post('/article/{article}/comment', [CommentController::class, 'store'])->name('comment.store');
+    Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
+
     // Bookmarks
     Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
-    Route::post('/bookmarks/{article}', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
+    Route::post('/article/{article}/bookmark', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
 });
 
 // Public user profiles

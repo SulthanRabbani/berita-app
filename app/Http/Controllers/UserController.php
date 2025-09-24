@@ -39,7 +39,7 @@ class UserController extends Controller
         // Get user's bookmarks (only if own profile)
         $bookmarks = collect();
         $isOwnProfile = Auth::check() && Auth::id() === $user->id;
-        
+
         if ($isOwnProfile) {
             $bookmarks = $user->bookmarks()
                 ->with(['article.category', 'article.user'])

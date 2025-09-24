@@ -27,7 +27,7 @@
                         <i class="fas fa-arrow-left"></i>
                         <span>Kembali ke Beranda</span>
                     </a>
-                    
+
                     @auth
                         @if($isOwnProfile)
                         <a href="{{ route('user.profile.edit') }}"
@@ -36,7 +36,7 @@
                             <span>Edit Profil</span>
                         </a>
                         @endif
-                        
+
                         <a href="{{ route('bookmarks.index') }}"
                            class="text-gray-700 hover:text-yellow-600 transition duration-200">
                             <i class="fas fa-bookmark text-xl"></i>
@@ -67,7 +67,7 @@
                              src="{{ $user->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=3b82f6&color=fff&size=300' }}"
                              alt="{{ $user->name }}">
                         @if($isOwnProfile)
-                        <a href="{{ route('user.profile.edit') }}" 
+                        <a href="{{ route('user.profile.edit') }}"
                            class="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg transition duration-200">
                             <i class="fas fa-camera text-sm"></i>
                         </a>
@@ -95,7 +95,7 @@
                             </span>
                             @endif
                         </div>
-                        
+
                         @if($user->bio)
                         <p class="text-gray-600 mb-3">{{ $user->bio }}</p>
                         @endif
@@ -107,15 +107,15 @@
                                 <span>{{ $user->location }}</span>
                             </span>
                             @endif
-                            
+
                             @if($user->website)
-                            <a href="{{ $user->website }}" target="_blank" 
+                            <a href="{{ $user->website }}" target="_blank"
                                class="flex items-center space-x-1 text-blue-600 hover:text-blue-700">
                                 <i class="fas fa-globe"></i>
                                 <span>Website</span>
                             </a>
                             @endif
-                            
+
                             <span class="flex items-center space-x-1">
                                 <i class="fas fa-calendar-alt"></i>
                                 <span>Bergabung {{ $user->created_at->locale('id')->format('F Y') }}</span>
@@ -220,7 +220,7 @@
                                     <i class="fas fa-newspaper text-white text-4xl opacity-50"></i>
                                 </div>
                                 @endif
-                                
+
                                 <div class="p-6">
                                     <div class="flex items-center justify-between mb-2">
                                         <span class="text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded">
@@ -252,7 +252,7 @@
                     </article>
                     @endforeach
                 </div>
-                
+
                 @if($articles->hasPages())
                 <div class="mt-8 flex justify-center">
                     {{ $articles->links() }}
@@ -273,7 +273,7 @@
                     @foreach($comments as $comment)
                     <div class="border border-gray-100 rounded-lg p-4 hover:bg-gray-50 transition duration-200">
                         <div class="flex items-start justify-between mb-2">
-                            <a href="{{ route('article.show', $comment->article) }}" 
+                            <a href="{{ route('article.show', $comment->article) }}"
                                class="text-blue-600 hover:text-blue-700 font-medium">
                                 {{ $comment->article->title }}
                             </a>
@@ -311,7 +311,7 @@
                                         <i class="fas fa-newspaper text-white text-2xl opacity-50"></i>
                                     </div>
                                     @endif
-                                    
+
                                     <div class="p-4">
                                         <h3 class="font-semibold text-gray-900 group-hover:text-blue-600 transition duration-300 mb-1">
                                             {{ $article->title }}
