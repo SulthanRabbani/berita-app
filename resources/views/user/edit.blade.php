@@ -6,6 +6,7 @@
     <title>Edit Profil - {{ config('app.name', 'Berita App') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Navigation -->
@@ -28,11 +29,71 @@
                         <span>Kembali ke Profil</span>
                     </a>
 
-                    <div class="flex items-center space-x-2 pl-2 border-l border-gray-200">
-                        <img class="h-8 w-8 rounded-full object-cover"
-                             src="{{ auth()->user()->getAvatarUrl(64) }}"
-                             alt="{{ auth()->user()->name }}">
-                        <span class="text-sm text-gray-700">{{ auth()->user()->name }}</span>
+                    <!-- User Dropdown -->
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" @click.away="open = false"
+                                class="flex items-center space-x-2 pl-2 border-l border-gray-200 hover:bg-gray-50 rounded-lg px-3 py-2 transition duration-200">
+                            <img class="h-8 w-8 rounded-full object-cover"
+                                 src="{{ auth()->user()->getAvatarUrl(64) }}"
+                                 alt="{{ auth()->user()->name }}">
+                            <span class="text-sm text-gray-700">{{ auth()->user()->name }}</span>
+                            <i class="fas fa-chevron-down text-gray-400 text-xs transition-transform" :class="{ 'rotate-180': open }"></i>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="transform opacity-0 scale-95"
+                             x-transition:enter-end="transform opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="transform opacity-100 scale-100"
+                             x-transition:leave-end="transform opacity-0 scale-95"
+                             class="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 z-50"
+                             style="display: none;">
+
+                            <!-- Menu Items -->
+                            <div class="py-2">
+                                <a href="{{ route('home') }}"
+                                   class="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition duration-200">
+                                    <i class="fas fa-home w-4"></i>
+                                    <span>Beranda</span>
+                                </a>
+
+                                <a href="{{ route('user.profile') }}"
+                                   class="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition duration-200">
+                                    <i class="fas fa-user w-4"></i>
+                                    <span>Profil Saya</span>
+                                </a>
+
+                                <a href="{{ route('bookmarks.index') }}"
+                                   class="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 transition duration-200">
+                                    <i class="fas fa-bookmark w-4"></i>
+                                    <span>Artikel Tersimpan</span>
+                                </a>
+
+                                @if(auth()->user()->canManageArticles())
+                                <div class="border-t border-gray-100 mt-2 pt-2">
+                                    <a href="{{ route('admin.dashboard') }}"
+                                       class="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-600 transition duration-200">
+                                        <i class="fas fa-tachometer-alt w-4"></i>
+                                        <span>Dashboard Admin</span>
+                                    </a>
+                                </div>
+                                @endif
+
+                                <!-- Logout -->
+                                <div class="border-t border-gray-100 mt-2 pt-2">
+                                    <form method="POST" action="{{ route('auth.logout') }}" class="w-full">
+                                        @csrf
+                                        <button type="submit"
+                                                class="flex items-center space-x-3 px-4 py-2 text-red-600 hover:bg-red-50 transition duration-200 w-full text-left">
+                                            <i class="fas fa-sign-out-alt w-4"></i>
+                                            <span>Logout</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

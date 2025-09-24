@@ -138,7 +138,7 @@ class User extends Authenticatable
             }
             return $this->avatar;
         }
-        
+
         // Fallback to UI Avatars
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=3b82f6&color=fff&size=' . $size;
     }

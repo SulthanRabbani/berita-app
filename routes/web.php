@@ -24,7 +24,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Google OAuth Routes
 Route::prefix('auth/google')->group(function () {
-    Route::get('/', [GoogleController::class, 'redirectToGoogle'])->name('auth.google.redirect');
+    Route::get('/', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
     Route::get('/callback', [GoogleController::class, 'handleGoogleCallback'])->name('auth.google.callback');
     Route::post('/logout', [GoogleController::class, 'logout'])->name('auth.logout');
 });

@@ -63,7 +63,7 @@ class HomeController extends Controller
         $categories = Category::withCount('articles')->get();
         $tags = Tag::withCount('articles')->limit(10)->get();
 
-        return view('welcome', compact('articles', 'categories', 'tags'));
+        return view('home', compact('articles', 'categories', 'tags'));
     }
 
     /**

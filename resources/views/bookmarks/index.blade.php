@@ -1,46 +1,13 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Artikel Tersimpan - {{ config('app.name', 'Berita App') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="flex items-center space-x-2">
-                        <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
-                            <i class="fas fa-newspaper text-white text-xl"></i>
-                        </div>
-                        <span class="text-xl font-bold text-gray-900">Berita App</span>
-                    </a>
-                </div>
+@extends('layouts.app')
 
-                <div class="flex items-center space-x-4">
-                    <a href="{{ route('home') }}"
-                       class="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition duration-200">
-                        <i class="fas fa-home"></i>
-                        <span>Beranda</span>
-                    </a>
-                    @auth
-                        <div class="flex items-center space-x-2">
-                            <img class="h-8 w-8 rounded-full object-cover"
-                                 src="{{ auth()->user()->getAvatarUrl(64) }}"
-                                 alt="{{ auth()->user()->name }}">
-                            <span class="text-sm text-gray-700">{{ auth()->user()->name }}</span>
-                        </div>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </nav>
+@section('title', 'Artikel Tersimpan - ' . config('app.name', 'Berita App'))
 
+@php
+    $backUrl = route('home');
+    $backText = 'Kembali ke Beranda';
+@endphp
+
+@section('content')
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Header -->
@@ -89,31 +56,32 @@
 
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-4 text-sm text-gray-500">
-                                <span>
-                                    <i class="far fa-clock mr-1"></i>
-                                    {{ $bookmark->article->published_at->locale('id')->diffForHumans() }}
+                                <span class="flex items-center space-x-1">
+                                    <i class="fas fa-user"></i>
+                                    <span>{{ $bookmark->article->user->name }}</span>
                                 </span>
-                                <span>
-                                    <i class="far fa-eye mr-1"></i>
-                                    {{ number_format($bookmark->article->views_count) }}
+                                <span class="flex items-center space-x-1">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span>{{ $bookmark->article->published_at->locale('id')->format('d M Y') }}</span>
                                 </span>
-                                <span>
-                                    <i class="far fa-comment mr-1"></i>
-                                    {{ $bookmark->article->comments_count ?? 0 }}
+                                <span class="flex items-center space-x-1">
+                                    <i class="far fa-eye"></i>
+                                    <span>{{ number_format($bookmark->article->views_count ?? 0) }} views</span>
                                 </span>
                             </div>
 
-                            <div class="flex space-x-2">
+                            <div class="flex items-center space-x-2">
                                 <a href="{{ route('article.show', $bookmark->article) }}"
-                                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition duration-200">
+                                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 text-sm">
                                     Baca Artikel
                                 </a>
-                                <form method="POST" action="{{ route('article.bookmark', $bookmark->article) }}" class="inline">
+                                
+                                <form method="POST" action="{{ route('bookmark.toggle', $bookmark->article) }}" class="inline">
                                     @csrf
                                     <button type="submit"
-                                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition duration-200"
-                                            onclick="return confirm('Yakin ingin menghapus artikel dari bookmark?')">
-                                        <i class="fas fa-trash"></i>
+                                            class="bg-yellow-100 hover:bg-yellow-200 text-yellow-700 p-2 rounded-lg transition duration-200"
+                                            title="Hapus dari tersimpan">
+                                        <i class="fas fa-bookmark"></i>
                                     </button>
                                 </form>
                             </div>
@@ -130,8 +98,9 @@
                 <h3 class="text-xl font-semibold text-gray-600 mb-2">Belum Ada Artikel Tersimpan</h3>
                 <p class="text-gray-500 mb-6">Mulai menyimpan artikel favorit Anda untuk dibaca nanti</p>
                 <a href="{{ route('home') }}"
-                   class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-200">
-                    Jelajahi Artikel
+                   class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-200 inline-flex items-center space-x-2">
+                    <i class="fas fa-search"></i>
+                    <span>Jelajahi Artikel</span>
                 </a>
             </div>
             @endforelse
@@ -144,5 +113,4 @@
             @endif
         </div>
     </main>
-</body>
-</html>
+@endsection

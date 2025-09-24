@@ -48,7 +48,10 @@ class UserController extends Controller
                 ->get();
         }
 
-        return view('user.profile', compact('user', 'articles', 'comments', 'bookmarks', 'isOwnProfile'));
+        // Calculate total views from all user articles
+        $totalViews = Article::where('user_id', $user->id)->sum('views_count') ?? 0;
+
+        return view('user.profile', compact('user', 'articles', 'comments', 'bookmarks', 'isOwnProfile', 'totalViews'));
     }
 
     /**
