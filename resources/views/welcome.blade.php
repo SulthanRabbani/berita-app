@@ -14,34 +14,47 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
                     <a href="{{ url('/') }}" class="flex items-center space-x-2">
-                        <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
+                        <div class="bg-blue-600 p-2 rounded-lg">
                             <i class="fas fa-newspaper text-white text-xl"></i>
                         </div>
                         <span class="text-xl font-bold text-gray-900">Berita App</span>
                     </a>
                 </div>
 
-                <div class="flex items-center space-x-4">
+                <!-- Search Bar - Always Visible -->
+                <div class="flex-1 max-w-md mx-4">
+                    <form method="GET" action="{{ route('home') }}" class="relative w-full">
+                        <input type="text"
+                               name="search"
+                               value="{{ request('search') }}"
+                               placeholder="Cari artikel..."
+                               class="w-full px-4 py-2 text-sm border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 pr-10">
+                        <!-- <button type="submit"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition duration-200">
+                            <i class="fas fa-search"></i>
+                        </button> -->
+                    </form>
+                </div>
+
+                <div class="flex items-center space-x-3 sm:space-x-4">
                     @auth
                         <a href="{{ route('bookmarks.index') }}"
-                           class="flex items-center space-x-2 text-gray-700 hover:text-yellow-600 transition duration-200">
-                            <i class="fas fa-bookmark"></i>
-                            <span>Tersimpan</span>
+                           class="text-gray-700 hover:text-yellow-600 transition duration-200">
+                            <i class="fas fa-bookmark text-xl"></i>
                         </a>
                         <a href="{{ route('user.profile') }}"
-                           class="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition duration-200">
-                            <i class="fas fa-user"></i>
-                            <span>Profil</span>
+                           class="text-gray-700 hover:text-blue-600 transition duration-200">
+                            <i class="fas fa-user text-xl"></i>
                         </a>
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-3 pl-2 border-l border-gray-200">
                             <img class="h-8 w-8 rounded-full object-cover"
                                  src="{{ auth()->user()->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=3b82f6&color=fff' }}"
                                  alt="{{ auth()->user()->name }}">
-                            <span class="text-sm text-gray-700">{{ auth()->user()->name }}</span>
+                            <span class="text-sm font-medium text-gray-900 hidden md:block">{{ auth()->user()->name }}</span>
                         </div>
                     @else
                         <a href="{{ route('login') }}"
-                           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center space-x-2">
+                           class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition duration-200 flex items-center space-x-2">
                             <i class="fas fa-sign-in-alt"></i>
                             <span>Login</span>
                         </a>
@@ -58,104 +71,10 @@
             <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                 Temukan Berita <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Terkini</span>
             </h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
                 Platform berita modern dengan pengalaman seperti media sosial untuk mengikuti perkembangan terkini
             </p>
-
-            <!-- Search Bar -->
-            <div class="max-w-xl mx-auto">
-                <form method="GET" action="{{ route('home') }}" class="relative">
-                    <input type="text"
-                           name="search"
-                           value="{{ request('search') }}"
-                           placeholder="Cari artikel berita..."
-                           class="w-full px-6 py-4 text-lg border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm">
-                    <button type="submit"
-                            class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition duration-200">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    @if(request('category'))
-                        <input type="hidden" name="category" value="{{ request('category') }}">
-                    @endif
-                    @if(request('tag'))
-                        <input type="hidden" name="tag" value="{{ request('tag') }}">
-                    @endif
-                </form>
-            </div>
         </div>
-
-        <!-- Category Filter -->
-        <div class="mb-8">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3">Kategori</h3>
-            <div class="flex flex-wrap gap-2 mb-6">
-                <a href="{{ route('home') }}"
-                   class="px-4 py-2 rounded-full text-sm font-medium transition duration-200 {{ !request('category') ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-blue-50' }}">
-                    Semua Berita
-                </a>
-                @foreach($categories as $category)
-                <a href="{{ route('home', ['category' => $category->id]) }}"
-                   class="px-4 py-2 rounded-full text-sm font-medium transition duration-200 {{ request('category') == $category->id ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-blue-50' }}">
-                    {{ $category->name }}
-                    <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full ml-1">{{ $category->articles_count }}</span>
-                </a>
-                @endforeach
-            </div>
-
-            @if($tags->count() > 0)
-            <h3 class="text-lg font-semibold text-gray-900 mb-3">Tag Popular</h3>
-            <div class="flex flex-wrap gap-2">
-                @foreach($tags as $tag)
-                <a href="{{ route('home', ['tag' => $tag->id]) }}"
-                   class="px-3 py-1 rounded-full text-xs font-medium transition duration-200 {{ request('tag') == $tag->id ? 'bg-purple-600 text-white' : 'bg-purple-100 text-purple-800 hover:bg-purple-200' }}">
-                    #{{ $tag->name }}
-                </a>
-                @endforeach
-            </div>
-            @endif
-        </div>
-
-        <!-- Active Filters Display -->
-        @if(request('category') || request('tag') || request('search'))
-        <div class="mb-6">
-            <div class="flex items-center space-x-2 text-sm text-gray-600">
-                <span>Filter aktif:</span>
-                @if(request('search'))
-                <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full flex items-center">
-                    Pencarian: "{{ request('search') }}"
-                    <a href="{{ route('home', request()->except('search')) }}" class="ml-2 text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-times"></i>
-                    </a>
-                </span>
-                @endif
-                @if(request('category'))
-                @php
-                    $activeCategory = $categories->find(request('category'));
-                @endphp
-                @if($activeCategory)
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
-                    Kategori: {{ $activeCategory->name }}
-                    <a href="{{ route('home', request()->except('category')) }}" class="ml-2 text-blue-500 hover:text-blue-700">
-                        <i class="fas fa-times"></i>
-                    </a>
-                </span>
-                @endif
-                @endif
-                @if(request('tag'))
-                @php
-                    $activeTag = $tags->find(request('tag'));
-                @endphp
-                @if($activeTag)
-                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full flex items-center">
-                    Tag: #{{ $activeTag->name }}
-                    <a href="{{ route('home', request()->except('tag')) }}" class="ml-2 text-purple-500 hover:text-purple-700">
-                        <i class="fas fa-times"></i>
-                    </a>
-                </span>
-                @endif
-                @endif
-            </div>
-        </div>
-        @endif
 
         @guest
         <!-- Login CTA -->
