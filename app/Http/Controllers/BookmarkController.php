@@ -26,6 +26,7 @@ class BookmarkController extends Controller
             // Remove bookmark
             $bookmark->delete();
             return response()->json([
+                'bookmarked' => false,
                 'status' => 'removed',
                 'message' => 'Artikel dihapus dari bookmark'
             ]);
@@ -36,6 +37,7 @@ class BookmarkController extends Controller
                 'article_id' => $article->id,
             ]);
             return response()->json([
+                'bookmarked' => true,
                 'status' => 'added',
                 'message' => 'Artikel berhasil disimpan'
             ]);

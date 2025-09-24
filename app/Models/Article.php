@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class Article extends Model
 {
@@ -175,5 +176,17 @@ class Article extends Model
     {
         $words = str_word_count(strip_tags($this->content));
         return ceil($words / 200); // Average reading speed
+    }
+
+    /**
+     * Check if article is bookmarked by current user.
+     */
+    public function getBookmarkedByUserAttribute(): bool
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+
+        return $this->bookmarks()->where('user_id', Auth::id())->exists();
     }
 }

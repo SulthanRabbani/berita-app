@@ -19,10 +19,13 @@ class UserController extends Controller
     {
         $user = $user ?? Auth::user();
 
-        // Get user's articles
+        // Get user's articles (published only for public viewing)
         $articles = Article::where('user_id', $user->id)
             ->with(['category', 'comments'])
             ->withCount('comments')
+            ->when(!Auth::check() || Auth::id() !== $user->id, function ($query) {
+                $query->where('status', 'published');
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(6);
 
@@ -30,19 +33,31 @@ class UserController extends Controller
         $comments = Comment::where('user_id', $user->id)
             ->with(['article', 'user'])
             ->orderBy('created_at', 'desc')
-            ->limit(5)
+            ->limit(10)
             ->get();
 
-        // Get user's bookmarks
-        $bookmarks = $user->bookmarks()
-            ->with(['article.category', 'article.user'])
-            ->orderBy('created_at', 'desc')
-            ->limit(6)
-            ->get();
-
-        $isOwnProfile = Auth::id() === $user->id;
+        // Get user's bookmarks (only if own profile)
+        $bookmarks = collect();
+        $isOwnProfile = Auth::check() && Auth::id() === $user->id;
+        
+        if ($isOwnProfile) {
+            $bookmarks = $user->bookmarks()
+                ->with(['article.category', 'article.user'])
+                ->orderBy('created_at', 'desc')
+                ->limit(8)
+                ->get();
+        }
 
         return view('user.profile', compact('user', 'articles', 'comments', 'bookmarks', 'isOwnProfile'));
+    }
+
+    /**
+     * Display a specific user's profile by ID
+     */
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        return $this->profile($user);
     }
 
     /**

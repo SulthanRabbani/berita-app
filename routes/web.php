@@ -49,16 +49,26 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 });
 
-// User Profile Routes
-Route::middleware('auth')->group(function () {
+// User routes
+Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('user.profile.edit');
     Route::put('/profile', [UserController::class, 'update'])->name('user.profile.update');
     Route::put('/profile/password', [UserController::class, 'updatePassword'])->name('user.profile.password');
-    Route::get('/profile/articles', [UserController::class, 'articles'])->name('user.articles');
-    Route::get('/profile/comments', [UserController::class, 'comments'])->name('user.comments');
-    Route::get('/user/{user}', [UserController::class, 'profile'])->name('user.show');
+    Route::get('/my-articles', [UserController::class, 'articles'])->name('user.articles');
+    Route::get('/my-comments', [UserController::class, 'comments'])->name('user.comments');
+    
+    // Comments
+    Route::post('/articles/{article}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    
+    // Bookmarks
+    Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
+    Route::post('/bookmarks/{article}', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
 });
+
+// Public user profiles
+Route::get('/users/{id}', [UserController::class, 'show'])->name('user.show');
 
 // Admin Routes
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
