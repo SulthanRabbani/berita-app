@@ -127,21 +127,30 @@
             @auth
             <!-- Comment Form -->
             <div class="mb-8">
-                <div class="flex space-x-3">
-                    <img class="h-10 w-10 rounded-full object-cover"
-                         src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=3b82f6&color=fff"
-                         alt="{{ auth()->user()->name }}">
-                    <div class="flex-1">
-                        <textarea class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                                  rows="3"
-                                  placeholder="Tulis komentar Anda..."></textarea>
-                        <div class="flex justify-end mt-3">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition duration-200">
-                                Kirim Komentar
-                            </button>
+                <form action="{{ route('comment.store', $article) }}" method="POST">
+                    @csrf
+                    <div class="flex space-x-3">
+                        <img class="h-10 w-10 rounded-full object-cover"
+                             src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=3b82f6&color=fff"
+                             alt="{{ auth()->user()->name }}">
+                        <div class="flex-1">
+                            <textarea name="content"
+                                      class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none @error('content') border-red-300 @enderror"
+                                      rows="3"
+                                      placeholder="Tulis komentar Anda..."
+                                      required>{{ old('content') }}</textarea>
+                            @error('content')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                            <div class="flex justify-end mt-3">
+                                <button type="submit"
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition duration-200">
+                                    Kirim Komentar
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             @else
             <div class="mb-8 text-center py-8 bg-gray-50 rounded-lg">
@@ -162,9 +171,24 @@
                          alt="{{ $comment->user->name }}">
                     <div class="flex-1">
                         <div class="bg-gray-50 rounded-lg p-4">
-                            <div class="flex items-center space-x-2 mb-2">
-                                <h4 class="font-semibold text-gray-900">{{ $comment->user->name }}</h4>
-                                <span class="text-sm text-gray-500">{{ $comment->created_at->diffForHumans() }}</span>
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center space-x-2">
+                                    <h4 class="font-semibold text-gray-900">{{ $comment->user->name }}</h4>
+                                    <span class="text-sm text-gray-500">{{ $comment->created_at->locale('id')->diffForHumans() }}</span>
+                                </div>
+                                @auth
+                                    @if(auth()->user()->id === $comment->user_id || auth()->user()->role === 'admin')
+                                        <form action="{{ route('comment.destroy', $comment) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="text-red-500 hover:text-red-700 text-sm"
+                                                    onclick="return confirm('Yakin ingin menghapus komentar ini?')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                @endauth
                             </div>
                             <p class="text-gray-700">{{ $comment->content }}</p>
                         </div>
