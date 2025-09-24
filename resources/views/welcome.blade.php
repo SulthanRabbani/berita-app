@@ -60,7 +60,7 @@
 
         @guest
         <!-- Login CTA -->
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-12 text-center">
+        <!-- <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-12 text-center">
             <div class="mb-6">
                 <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fab fa-google text-blue-600 text-2xl"></i>
@@ -73,7 +73,7 @@
                     <span>Masuk dengan Google</span>
                 </a>
             </div>
-        </div>
+        </div> -->
         @endguest
 
         <!-- Articles Feed -->
@@ -82,16 +82,7 @@
             <article class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition duration-300">
                 <!-- Article Header -->
                 <div class="p-6 pb-4">
-                    <div class="flex items-center space-x-3">
-                        <img class="h-10 w-10 rounded-full object-cover"
-                             src="https://ui-avatars.com/api/?name={{ urlencode($article->user->name) }}&background={{ ['3b82f6', '10b981', '8b5cf6', 'f59e0b', 'ef4444'][rand(0,4)] }}&color=fff"
-                             alt="{{ $article->user->name }}">
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-gray-900">{{ $article->user->name }}</h4>
-                            <p class="text-sm text-gray-500">
-                                {{ $article->published_at->diffForHumans() }} • {{ $article->category->name }}
-                            </p>
-                        </div>
+                    <div class="flex items-center justify-end mb-2">
                         <button class="text-gray-400 hover:text-gray-600 transition duration-200">
                             <i class="fas fa-ellipsis-h"></i>
                         </button>
@@ -154,6 +145,17 @@
                                 {{ $article->title }}
                             </h2>
                         </a>
+
+                        <!-- Article Meta -->
+                        <div class="flex items-center space-x-2 text-sm text-gray-500">
+                            <i class="far fa-clock"></i>
+                            <span>{{ $article->published_at->locale('id')->diffForHumans() }}</span>
+                            <span>•</span>
+                            <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-medium">
+                                {{ $article->category->name }}
+                            </span>
+                        </div>
+
                         <p class="text-gray-600 leading-relaxed">
                             {{ $article->excerpt ?? Str::limit(strip_tags($article->content), 200) }}
                         </p>
