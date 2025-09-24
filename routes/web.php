@@ -86,3 +86,19 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
+
+// Google OAuth Routes
+Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
+
+// Test route untuk debug Google config
+Route::get('/test-google', function() {
+    return [
+        'client_id' => config('services.google.client_id'),
+        'client_secret' => config('services.google.client_secret') ? 'SET' : 'NOT SET',
+        'redirect' => config('services.google.redirect'),
+    ];
+});
+
+// Logout route
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');

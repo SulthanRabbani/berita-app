@@ -14,7 +14,7 @@ class GoogleController extends Controller
     /**
      * Redirect to Google OAuth
      */
-    public function redirectToGoogle()
+    public function redirect()
     {
         return Socialite::driver('google')->redirect();
     }
@@ -22,7 +22,7 @@ class GoogleController extends Controller
     /**
      * Handle Google OAuth callback
      */
-    public function handleGoogleCallback()
+    public function callback()
     {
         try {
             $googleUser = Socialite::driver('google')->user();
