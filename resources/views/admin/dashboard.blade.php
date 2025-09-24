@@ -1,12 +1,25 @@
-@extends('adminlte::page')
+@extends('layouts.admin')
 
 @section('title', 'Dashboard Admin')
 
-@section('content_header')
-    <h1>Dashboard</h1>
-@stop
-
 @section('content')
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Dashboard</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container-fluid">
     <div class="row">
         <div class="col-lg-3 col-6">
             <!-- small box -->
@@ -94,7 +107,7 @@
                 </div>
                 @if($stats['recent_articles']->count() > 0)
                     <div class="card-footer text-center">
-                        <a href="#" class="btn btn-sm btn-primary">View All Articles</a>
+                        <a href="{{ route('admin.articles.index') }}" class="btn btn-sm btn-primary">View All Articles</a>
                     </div>
                 @endif
             </div>
@@ -151,7 +164,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3 mb-3">
-                            <a href="#" class="btn btn-primary btn-block">
+                            <a href="{{ route('admin.articles.create') }}" class="btn btn-primary btn-block">
                                 <i class="fas fa-plus mr-2"></i>
                                 New Article
                             </a>
@@ -181,13 +194,13 @@
             </div>
         </div>
     </div>
-@stop
+</div>
+@endsection
 
-@section('css')
-    {{-- Add here extra stylesheets --}}
+@push('styles')
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-@stop
+@endpush
 
-@section('js')
-    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
-@stop
+@push('scripts')
+    <script> console.log("Dashboard loaded successfully!"); </script>
+@endpush
