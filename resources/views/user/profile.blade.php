@@ -44,7 +44,7 @@
 
                         <div class="flex items-center space-x-2 pl-2 border-l border-gray-200">
                             <img class="h-8 w-8 rounded-full object-cover"
-                                 src="{{ auth()->user()->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=3b82f6&color=fff' }}"
+                                 src="{{ auth()->user()->getAvatarUrl(64) }}"
                                  alt="{{ auth()->user()->name }}">
                             <span class="text-sm text-gray-700">{{ auth()->user()->name }}</span>
                         </div>
@@ -64,7 +64,7 @@
                     <!-- Avatar -->
                     <div class="relative">
                         <img class="h-32 w-32 rounded-full object-cover border-4 border-white shadow-lg bg-white"
-                             src="{{ $user->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=3b82f6&color=fff&size=300' }}"
+                             src="{{ $user->getAvatarUrl(300) }}"
                              alt="{{ $user->name }}">
                         @if($isOwnProfile)
                         <a href="{{ route('user.profile.edit') }}"

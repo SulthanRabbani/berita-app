@@ -31,7 +31,7 @@
                     @auth
                         <div class="flex items-center space-x-2">
                             <img class="h-8 w-8 rounded-full object-cover"
-                                 src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=3b82f6&color=fff"
+                                 src="{{ auth()->user()->getAvatarUrl(64) }}"
                                  alt="{{ auth()->user()->name }}">
                             <span class="text-sm text-gray-700">{{ auth()->user()->name }}</span>
                         </div>

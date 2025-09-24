@@ -88,7 +88,7 @@
                         @forelse($article->comments->where('parent_id', null)->take(5) as $comment)
                             <div class="comment mb-3">
                                 <div class="d-flex">
-                                    <img src="{{ $comment->user->avatar ?? 'https://via.placeholder.com/50' }}"
+                                    <img src="{{ $comment->user->getAvatarUrl(50) }}"
                                          alt="Avatar"
                                          class="img-circle mr-3"
                                          style="width: 50px; height: 50px;">
@@ -104,7 +104,7 @@
                                             <div class="replies ml-4 mt-2">
                                                 @foreach($comment->replies->take(3) as $reply)
                                                     <div class="reply d-flex mb-2">
-                                                        <img src="{{ $reply->user->avatar ?? 'https://via.placeholder.com/40' }}"
+                                                        <img src="{{ $reply->user->getAvatarUrl(40) }}"
                                                              alt="Avatar"
                                                              class="img-circle mr-2"
                                                              style="width: 40px; height: 40px;">

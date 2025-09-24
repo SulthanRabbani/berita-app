@@ -49,7 +49,7 @@
                         </a>
                         <div class="flex items-center space-x-3 pl-2 border-l border-gray-200">
                             <img class="h-8 w-8 rounded-full object-cover"
-                                 src="{{ auth()->user()->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=3b82f6&color=fff' }}"
+                                 src="{{ auth()->user()->getAvatarUrl(64) }}"
                                  alt="{{ auth()->user()->name }}">
                             <span class="text-sm font-medium text-gray-900 hidden md:block">{{ auth()->user()->name }}</span>
                         </div>

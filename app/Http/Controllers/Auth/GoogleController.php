@@ -31,13 +31,11 @@ class GoogleController extends Controller
             $user = User::where('email', $googleUser->getEmail())->first();
 
             if ($user) {
-                // Update existing user with Google info if not already set
-                if (!$user->google_id) {
-                    $user->update([
-                        'google_id' => $googleUser->getId(),
-                        'avatar' => $googleUser->getAvatar(),
-                    ]);
-                }
+                // Update existing user with fresh Google info
+                $user->update([
+                    'google_id' => $googleUser->getId(),
+                    'avatar' => $googleUser->getAvatar(),
+                ]);
             } else {
                 // Create new user
                 $user = User::create([
@@ -53,11 +51,11 @@ class GoogleController extends Controller
             // Login the user
             Auth::login($user);
 
-            // Redirect to intended page or dashboard
-            return redirect()->intended('/dashboard');
+            // Redirect to intended page or home
+            return redirect()->intended('/');
 
         } catch (\Exception $e) {
-            return redirect('/login')->withErrors(['error' => 'Something went wrong with Google authentication.']);
+            return redirect('/')->withErrors(['error' => 'Something went wrong with Google authentication.']);
         }
     }
 

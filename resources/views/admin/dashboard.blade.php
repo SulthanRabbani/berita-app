@@ -124,8 +124,7 @@
                             <li class="list-group-item">
                                 <div class="d-flex align-items-start">
                                     <div class="me-3">
-                                        @if($comment->user->avatar)
-                                            <img src="{{ $comment->user->avatar }}" alt="Avatar" class="rounded-circle" width="32" height="32">
+                                            <img src="{{ $comment->user->getAvatarUrl(32) }}" alt="Avatar" class="rounded-circle" width="32" height="32">
                                         @else
                                             <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
                                                 <i class="fas fa-user text-white"></i>

@@ -30,7 +30,7 @@
 
                     <div class="flex items-center space-x-2 pl-2 border-l border-gray-200">
                         <img class="h-8 w-8 rounded-full object-cover"
-                             src="{{ auth()->user()->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=3b82f6&color=fff' }}"
+                             src="{{ auth()->user()->getAvatarUrl(64) }}"
                              alt="{{ auth()->user()->name }}">
                         <span class="text-sm text-gray-700">{{ auth()->user()->name }}</span>
                     </div>
@@ -203,7 +203,7 @@
                     <div class="p-6">
                         <div class="text-center mb-6">
                             <img class="h-20 w-20 rounded-full object-cover mx-auto mb-3 border-4 border-gray-100"
-                                 src="{{ $user->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=3b82f6&color=fff&size=200' }}"
+                                 src="{{ $user->getAvatarUrl(200) }}"
                                  alt="{{ $user->name }}">
                             <h4 class="text-lg font-semibold text-gray-900">{{ $user->name }}</h4>
                             <p class="text-sm text-gray-600">{{ $user->email }}</p>
