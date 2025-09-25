@@ -41,6 +41,8 @@
                                        name="title"
                                        value="{{ old('title', $article->title) }}"
                                        placeholder="Enter article title"
+                                       oninput="generateSlug(this.value)"
+                                       onpaste="setTimeout(function(){ generateSlug(document.getElementById('title').value); }, 10)"
                                        required>
                                 @error('title')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -55,11 +57,11 @@
                                        id="slug"
                                        name="slug"
                                        value="{{ old('slug', $article->slug) }}"
-                                       placeholder="Auto-generated from title">
+                                       placeholder="Will be auto-generated from title...">
                                 @error('slug')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                                <small class="form-text text-muted">Leave empty to auto-generate from title</small>
+                                <small class="form-text text-muted">Auto-generated from title or enter custom slug</small>
                             </div>
 
                             <!-- Excerpt -->
@@ -254,6 +256,30 @@
 </div>
 @endsection
 
+<!-- Global JavaScript untuk slug generation -->
+<script>
+    // Auto-generate slug from title
+    function generateSlug(titleValue) {
+        var slugField = document.getElementById('slug');
+        if (slugField) {
+            var slug = titleValue
+                .toLowerCase()
+                .replace(/[^a-z0-9\s]+/gi, '')  // Remove special chars but keep spaces
+                .replace(/\s+/g, '-')           // Replace spaces with hyphens
+                .replace(/-+/g, '-')            // Replace multiple hyphens
+                .replace(/^-|-$/g, '');         // Remove leading/trailing hyphens
+
+            slugField.value = slug;
+
+            // Visual feedback
+            if (slug) {
+                slugField.style.borderColor = '#28a745';
+                slugField.style.backgroundColor = '#f8f9fa';
+            }
+        }
+    }
+</script>
+
 @push('styles')
     <!-- Select2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
@@ -356,13 +382,15 @@
         }
 
         // Form validation
-        $('#articleForm').on('submit', function(e) {
-            let content = $('#content').summernote('code');
-            if (content === '<p><br></p>' || content === '') {
-                e.preventDefault();
-                alert('Please add some content to your article.');
-                return false;
-            }
+        $(document).ready(function() {
+            $('#articleForm').on('submit', function(e) {
+                let content = $('#content').summernote('code');
+                if (content === '<p><br></p>' || content === '') {
+                    e.preventDefault();
+                    alert('Please add some content to your article.');
+                    return false;
+                }
+            });
         });
     </script>
 @endpush

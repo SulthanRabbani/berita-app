@@ -133,8 +133,8 @@
                                         @endif
                                     </div>
                                     <div class="flex-grow-1">
-                                        <div class="fw-bold">{{ $comment->user->name }}</div>
-                                        <div class="text-muted small mb-1">on "{{ Str::limit($comment->article->title, 30) }}"</div>
+                                        <div class="fw-bold ml-2">{{ $comment->user->name }}</div>
+                                        <div class="text-muted small mb-1">"{{ Str::limit($comment->article->title, 30) }}"</div>
                                         <div>{{ Str::limit($comment->content, 60) }}</div>
                                     </div>
                                 </div>
