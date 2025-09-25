@@ -105,6 +105,22 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     ]);
 });
 
+// Admin Only Routes (Super Admin access)
+Route::prefix('admin')->middleware(['auth', 'adminonly'])->group(function () {
+    // User Management (Admin Only)
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class, [
+        'names' => [
+            'index' => 'admin.users.index',
+            'create' => 'admin.users.create',
+            'store' => 'admin.users.store',
+            'show' => 'admin.users.show',
+            'edit' => 'admin.users.edit',
+            'update' => 'admin.users.update',
+            'destroy' => 'admin.users.destroy',
+        ]
+    ]);
+});
+
 // Login page route
 Route::get('/login', function () {
     return view('auth.login');

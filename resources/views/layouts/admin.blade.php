@@ -187,23 +187,34 @@
                             </ul>
                         </li>
 
-                        <!-- Comments -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-comments"></i>
-                                <p>Comments</p>
-                            </a>
-                        </li>
-
                         @if(auth()->user()->role === 'admin')
                             <!-- User Management -->
                             <li class="nav-header">USER MANAGEMENT</li>
 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item {{ request()->routeIs('admin.users.*') ? 'menu-open' : '' }}">
+                                <a href="#" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-users"></i>
-                                    <p>Users</p>
+                                    <p>
+                                        Users
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.users.index') }}"
+                                           class="nav-link {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>All Users</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.users.create') }}"
+                                           class="nav-link {{ request()->routeIs('admin.users.create') ? 'active' : '' }}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Create User</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
 
                             <!-- System -->
