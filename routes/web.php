@@ -90,6 +90,19 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
             'destroy' => 'admin.categories.destroy',
         ]
     ]);
+
+    // Tag Management
+    Route::resource('tags', App\Http\Controllers\Admin\TagController::class, [
+        'names' => [
+            'index' => 'admin.tags.index',
+            'create' => 'admin.tags.create',
+            'store' => 'admin.tags.store',
+            'show' => 'admin.tags.show',
+            'edit' => 'admin.tags.edit',
+            'update' => 'admin.tags.update',
+            'destroy' => 'admin.tags.destroy',
+        ]
+    ]);
 });
 
 // Login page route
