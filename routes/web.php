@@ -29,13 +29,6 @@ Route::prefix('auth/google')->group(function () {
     Route::post('/logout', [GoogleController::class, 'logout'])->name('auth.logout');
 });
 
-// Dashboard (protected route)
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
-
 // User routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
