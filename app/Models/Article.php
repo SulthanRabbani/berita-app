@@ -189,4 +189,24 @@ class Article extends Model
 
         return $this->bookmarks()->where('user_id', Auth::id())->exists();
     }
+
+    /**
+     * Get featured image URL.
+     */
+    public function getFeaturedImageUrlAttribute(): ?string
+    {
+        if (!$this->featured_image) {
+            return null;
+        }
+
+        return asset('storage/' . $this->featured_image);
+    }
+
+    /**
+     * Check if article has featured image.
+     */
+    public function hasFeaturedImage(): bool
+    {
+        return !empty($this->featured_image);
+    }
 }

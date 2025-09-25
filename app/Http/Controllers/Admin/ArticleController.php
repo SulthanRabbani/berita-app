@@ -9,6 +9,7 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -18,8 +19,8 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::with(['user', 'category', 'tags'])
-            ->when(auth()->user()->role === 'editor', function ($query) {
-                $query->where('user_id', auth()->id());
+            ->when(Auth::user()->role === 'editor', function ($query) {
+                $query->where('user_id', Auth::id());
             })
             ->latest()
             ->paginate(10);
@@ -56,7 +57,7 @@ class ArticleController extends Controller
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
-        $validated['user_id'] = auth()->id();
+        $validated['user_id'] = Auth::id();
 
         // Handle file upload
         if ($request->hasFile('featured_image')) {
@@ -121,13 +122,22 @@ class ArticleController extends Controller
             'featured_image' => 'nullable|image|max:2048',
             'status' => 'required|in:draft,published,archived',
             'published_at' => 'nullable|date',
+            'remove_image' => 'nullable|boolean',
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
 
+        // Handle image removal
+        if ($request->has('remove_image') && $request->remove_image) {
+            if ($article->featured_image) {
+                Storage::disk('public')->delete($article->featured_image);
+                $validated['featured_image'] = null;
+            }
+        }
+
         // Handle file upload
         if ($request->hasFile('featured_image')) {
-            // Delete old image
+            // Delete old image if uploading new one
             if ($article->featured_image) {
                 Storage::disk('public')->delete($article->featured_image);
             }
@@ -175,7 +185,7 @@ class ArticleController extends Controller
      */
     private function authorizeArticleAccess(Article $article)
     {
-        if (auth()->user()->role === 'editor' && $article->user_id !== auth()->id()) {
+        if (Auth::user()->role === 'editor' && $article->user_id !== Auth::id()) {
             abort(403, 'Unauthorized access to this article.');
         }
     }

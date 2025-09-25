@@ -179,18 +179,29 @@
                         <div class="card-body">
                             @if($article->featured_image)
                                 <div class="current-image mb-3">
-                                    <label>Current Image:</label>
-                                    <div>
-                                        <img src="{{ Storage::url($article->featured_image) }}"
-                                             alt="Current Featured Image"
-                                             class="img-fluid img-thumbnail"
-                                             style="max-height: 200px;">
-                                    </div>
-                                    <div class="form-check mt-2">
-                                        <input class="form-check-input" type="checkbox" id="remove_image" name="remove_image" value="1">
-                                        <label class="form-check-label" for="remove_image">
-                                            Remove current image
-                                        </label>
+                                    <div class="card card-outline card-success">
+                                        <div class="card-header">
+                                            <h3 class="card-title">
+                                                <i class="fas fa-image"></i> Current Image
+                                            </h3>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <img src="{{ $article->featured_image_url }}"
+                                                 alt="Current Featured Image"
+                                                 class="img-fluid img-thumbnail"
+                                                 style="max-height: 250px; width: auto;">
+                                            <div class="mt-2">
+                                                <div class="small text-muted">
+                                                    <div><strong>File Path:</strong> {{ basename($article->featured_image) }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-check mt-3">
+                                                <input class="form-check-input" type="checkbox" id="remove_image" name="remove_image" value="1">
+                                                <label class="form-check-label text-danger" for="remove_image">
+                                                    <i class="fas fa-trash"></i> Remove current image
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             @endif
@@ -212,8 +223,33 @@
                             </div>
 
                             <div id="imagePreview" class="mt-3" style="display: none;">
-                                <label>New Image Preview:</label>
-                                <img id="preview" src="#" alt="Image Preview" class="img-fluid img-thumbnail">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card card-outline card-info">
+                                            <div class="card-header">
+                                                <h3 class="card-title">
+                                                    <i class="fas fa-image"></i> New Image Preview
+                                                </h3>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <img id="preview" src="#" alt="Image Preview" class="img-fluid img-thumbnail" style="max-height: 250px; width: auto;">
+                                                <div class="mt-2">
+                                                    <div id="imageDetails" class="small text-muted">
+                                                        <div><strong>File Name:</strong> <span id="fileName"></span></div>
+                                                        <div><strong>File Size:</strong> <span id="fileSize"></span></div>
+                                                        <div><strong>Dimensions:</strong> <span id="imageDimensions"></span></div>
+                                                        <div><strong>File Type:</strong> <span id="fileType"></span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeImage()">
+                                                        <i class="fas fa-trash"></i> Remove New Image
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -255,6 +291,130 @@
     </div>
 </div>
 @endsection
+
+<!-- Global JavaScript untuk slug generation dan image preview -->
+<script>
+    // Auto-generate slug from title
+    function generateSlug(titleValue) {
+        var slugField = document.getElementById('slug');
+        if (slugField) {
+            var slug = titleValue
+                .toLowerCase()
+                .replace(/[^a-z0-9\s]+/gi, '') // Remove special chars but keep spaces
+                .replace(/\s+/g, '-') // Replace spaces with hyphens
+                .replace(/-+/g, '-') // Replace multiple hyphens
+                .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
+
+            slugField.value = slug;
+
+            // Visual feedback
+            if (slug) {
+                slugField.style.borderColor = '#28a745';
+                slugField.style.backgroundColor = '#f8f9fa';
+            }
+        }
+    }
+
+    // Image preview function with detailed information
+    function previewImage(input) {
+        console.log('previewImage called'); // Debug log
+
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            const reader = new FileReader();
+
+            console.log('File selected:', file.name, file.type, file.size); // Debug log
+
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Please select a valid image file (JPEG, PNG, GIF, WebP)');
+                removeImage();
+                return;
+            }
+
+            // Validate file size (5MB max)
+            const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+            if (file.size > maxSize) {
+                alert('File size must be less than 5MB');
+                removeImage();
+                return;
+            }
+
+            reader.onload = function(e) {
+                console.log('File loaded successfully'); // Debug log
+
+                // Show preview image
+                const previewElement = document.getElementById('preview');
+                const imagePreviewElement = document.getElementById('imagePreview');
+
+                if (previewElement && imagePreviewElement) {
+                    previewElement.src = e.target.result;
+                    imagePreviewElement.style.display = 'block';
+
+                    // Display file information
+                    const fileNameElement = document.getElementById('fileName');
+                    const fileSizeElement = document.getElementById('fileSize');
+                    const fileTypeElement = document.getElementById('fileType');
+
+                    if (fileNameElement) fileNameElement.textContent = file.name;
+                    if (fileSizeElement) fileSizeElement.textContent = formatFileSize(file.size);
+                    if (fileTypeElement) fileTypeElement.textContent = file.type;
+
+                    // Get image dimensions
+                    const img = new Image();
+                    img.onload = function() {
+                        const dimensionsElement = document.getElementById('imageDimensions');
+                        if (dimensionsElement) {
+                            dimensionsElement.textContent = this.width + ' × ' + this.height + ' pixels';
+                        }
+                    };
+                    img.src = e.target.result;
+
+                    // Visual feedback for file input
+                    const customLabel = document.querySelector('.custom-file-label');
+                    if (customLabel) {
+                        customLabel.textContent = file.name;
+                        customLabel.classList.add('selected');
+                    }
+                }
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Format file size
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Remove image function
+    function removeImage() {
+        const imagePreviewElement = document.getElementById('imagePreview');
+        const featuredImageElement = document.getElementById('featured_image');
+        const customLabel = document.querySelector('.custom-file-label');
+        const previewElement = document.getElementById('preview');
+
+        if (imagePreviewElement) imagePreviewElement.style.display = 'none';
+        if (featuredImageElement) featuredImageElement.value = '';
+        if (customLabel) {
+            customLabel.textContent = 'Choose image';
+            customLabel.classList.remove('selected');
+        }
+        if (previewElement) previewElement.src = '#';
+
+        // Clear all detail fields
+        ['fileName', 'fileSize', 'fileType', 'imageDimensions'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.textContent = '';
+        });
+    }
+</script>
 
 <!-- Global JavaScript untuk slug generation -->
 <script>
@@ -347,17 +507,39 @@
             });
         });
 
-        // Image preview function
-        function previewImage(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#preview').attr('src', e.target.result);
-                    $('#imagePreview').show();
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
+        // Upload image for Summernote
+        function uploadImage(file) {
+            let data = new FormData();
+            data.append("file", file);
+            data.append("_token", "{{ csrf_token() }}");
+
+            $.ajax({
+                url: "{{ route('admin.articles.upload-image') }}",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: data,
+                type: "POST",
+                success: function(response) {
+                    $('#content').summernote('insertImage', response.url);
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
         }
+
+        // Form validation
+        $(document).ready(function() {
+            $('#articleForm').on('submit', function(e) {
+                let content = $('#content').summernote('code');
+                if (content === '<p><br></p>' || content === '') {
+                    e.preventDefault();
+                    alert('Please add some content to your article.');
+                    return false;
+                }
+            });
+        });
 
         // Upload image for Summernote
         function uploadImage(file) {
