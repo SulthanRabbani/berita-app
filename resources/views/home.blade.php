@@ -177,7 +177,7 @@
                         <span class="text-xl font-bold text-gray-900">Berita App</span>
                     </div>
                     <p class="text-gray-600 max-w-md">
-                        Platform berita modern dengan teknologi Laravel dan desain seperti Instagram untuk pengalaman terbaik dalam mengikuti perkembangan terkini.
+                        Platform berita modern dengan desain seperti Instagram untuk pengalaman terbaik dalam mengikuti perkembangan terkini.
                     </p>
                     <div class="flex space-x-4 mt-6">
                         <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-200">
