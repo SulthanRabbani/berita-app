@@ -77,6 +77,19 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // Image upload for WYSIWYG editor
     Route::post('/articles/upload-image', [App\Http\Controllers\Admin\ArticleController::class, 'uploadImage'])
         ->name('admin.articles.upload-image');
+
+    // Category Management
+    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class, [
+        'names' => [
+            'index' => 'admin.categories.index',
+            'create' => 'admin.categories.create',
+            'store' => 'admin.categories.store',
+            'show' => 'admin.categories.show',
+            'edit' => 'admin.categories.edit',
+            'update' => 'admin.categories.update',
+            'destroy' => 'admin.categories.destroy',
+        ]
+    ]);
 });
 
 // Login page route

@@ -134,11 +134,30 @@
                         </li>
 
                         <!-- Categories -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
+                        <li class="nav-item {{ request()->routeIs('admin.categories.*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-folder"></i>
-                                <p>Categories</p>
+                                <p>
+                                    Categories
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.categories.index') }}"
+                                       class="nav-link {{ request()->routeIs('admin.categories.index') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Categories</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.categories.create') }}"
+                                       class="nav-link {{ request()->routeIs('admin.categories.create') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Create Category</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <!-- Tags -->
