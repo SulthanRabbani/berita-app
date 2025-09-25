@@ -84,10 +84,10 @@
                     </div>
                 </form>
 
-                <div class="social-auth-links text-center mt-2 mb-3">
+                <!-- <div class="social-auth-links text-center mt-2 mb-3">
                     <p>- ATAU -</p>
 
-                </div>
+                </div> -->
 
                 <!-- <p class="mb-1">
                     <a href="#">I forgot my password</a>
