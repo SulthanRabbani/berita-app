@@ -235,9 +235,6 @@
 
                 <!-- Modal Header -->
                 <div class="text-center mb-8">
-                    <div class="bg-gradient-to-r from-blue-600 to-purple-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fab fa-google text-white text-3xl"></i>
-                    </div>
                     <h3 class="text-2xl font-bold text-gray-900 mb-2">Bergabunglah dengan Komunitas</h3>
                     <p class="text-gray-600">Masuk untuk membaca, berkomentar, dan menyimpan artikel favorit Anda</p>
                 </div>
