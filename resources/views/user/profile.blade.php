@@ -23,12 +23,12 @@
                     <img class="h-24 w-24 rounded-full object-cover ring-4 ring-gray-50"
                          src="{{ $user->getAvatarUrl(200) }}"
                          alt="{{ $user->name }}">
-                    @if($isOwnProfile)
+                    <!-- @if($isOwnProfile)
                     <a href="{{ route('user.profile.edit') }}"
-                       class="absolute -bottom-2 -right-2 bg-blue-500 hover:bg-blue-600 text-white p-1.5 rounded-full shadow-md transition duration-200">
+                       class="">
                         <i class="fas fa-pen text-xs"></i>
                     </a>
-                    @endif
+                    @endif -->
                 </div>
 
                 <!-- User Info -->
@@ -36,17 +36,17 @@
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
                         <h1 class="text-2xl font-bold text-gray-900 mb-2 sm:mb-0">{{ $user->name }}</h1>
                         @if($user->role === 'admin')
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700 border border-red-200">
+                        <span class="inline-flex items-center px-1 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
                             <i class="fas fa-crown mr-1"></i>
                             Admin
                         </span>
                         @elseif($user->role === 'editor')
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200">
+                        <span class="inline-flex items-center px-1 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
                             <i class="fas fa-pen mr-1"></i>
                             Editor
                         </span>
                         @else
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                        <span class="inline-flex items-center px-1 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
                             <i class="fas fa-user mr-1"></i>
                             Member
                         </span>
@@ -61,7 +61,7 @@
                         @if($user->location)
                         <span class="flex items-center space-x-1">
                             <i class="fas fa-map-marker-alt text-gray-400"></i>
-                            <span>{{ $user->location }}</span>
+                            <span class="ml-2">{{ $user->location }}</span>
                         </span>
                         @endif
 
@@ -75,7 +75,7 @@
 
                         <span class="flex items-center space-x-1">
                             <i class="fas fa-calendar-alt text-gray-400"></i>
-                            <span>Bergabung {{ $user->created_at->locale('id')->format('M Y') }}</span>
+                            <span class="ml-2">Bergabung {{ $user->created_at->locale('id')->format('M Y') }}</span>
                         </span>
                     </div>
                 </div>
